@@ -2,9 +2,9 @@ package org.miejski.kotlinspark
 
 import org.apache.spark.SparkConf
 import org.apache.spark.api.java.JavaSparkContext
+import org.miejski.kotlinspark.model.Rating
 
 fun main(args: Array<String>) {
-    println("Hello, world!")
 
     val conf = SparkConf().setAppName("kotlinYarnTest")
     val sc = JavaSparkContext(conf)
@@ -13,7 +13,10 @@ fun main(args: Array<String>) {
     val filtered = rdd.map { it * 4 }
             .filter { m -> m % 6 == 0 }
     filtered.foreach { println(it) }
-    rdd.saveAsTextFile("/projects/profile_test/main/end2endtest/grzegorz.miejski/kotlin/")
 
+        val userRdd = sc.textFile("/projects/profile_test/main/end2endtest/grzegorz.miejski/kotlin/ratings.dat")
+            .map { Rating.create(it.split("::")) }
+
+    AverageRating().count(userRdd).forEach { println(it) }
 }
 
