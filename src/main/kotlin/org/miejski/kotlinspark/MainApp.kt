@@ -14,7 +14,7 @@ fun main(args: Array<String>) {
             .filter { m -> m % 6 == 0 }
     filtered.foreach { println(it) }
 
-        val userRdd = sc.textFile("/projects/profile_test/main/end2endtest/grzegorz.miejski/kotlin/ratings.dat")
+    val userRdd = sc.textFile("/projects/profile_test/main/end2endtest/grzegorz.miejski/kotlin/ratings.dat")
             .map { Rating.create(it.split("::")) }
 
     AverageRating().count(userRdd).forEach { println(it) }
